@@ -7,6 +7,12 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
 
+      table.integer('idproducto').notNullable().unsigned().references('id').inTable('productos')
+
+      table.decimal('porcentaje',5,2).notNullable()
+
+      table.string('nombre',200).notNullable()
+
       table.timestamp('created_at')
       table.timestamp('updated_at')
     })
