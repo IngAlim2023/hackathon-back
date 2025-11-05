@@ -1,0 +1,12 @@
+import './routes/rol.routes.js';
+import './routes/usuarios.routes.js'
+import './routes/sucursal.routes.js'
+import './routes/empleados.routes.js'
+import './routes/clientes.routes.js'
+import './routes/categorias.routes.js'
+import './routes/subcategorias.routes.js'
+import './routes/productos.routes.js'
+import './routes/fotos.routes.js'
+import './routes/descuentos.routes.js'
+import './routes/ventas.routes.js'
+import './routes/detallesventas.routes.js'
