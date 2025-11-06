@@ -13,7 +13,7 @@ Gestionar de manera eficiente y dinámica los datos y procesos internos del sist
 
 - ⚙️ Node.js (con AdonisJS)
 - 🟦 TypeScript
-- 🛢️ SQLite (base de datos para desarrollo)
+- 🛢️ PostgreSQL
 - 📦 npm para gestión de dependencias
 
 ## 📦 Requisitos previos
