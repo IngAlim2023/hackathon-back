@@ -27,6 +27,8 @@ export default class Venta extends BaseModel {
   @belongsTo(()=>Empleado,{foreignKey:'idempleado'})
   declare empleado:BelongsTo<typeof Empleado>
 
-  @hasMany(()=>Detalleventa)
+  @hasMany(()=>Detalleventa, {
+    foreignKey: 'idventa'
+  })
   declare detalleventas:HasMany<typeof Detalleventa>
 }
