@@ -66,7 +66,25 @@ export default class EmpleadosController {
   async readEmpleados({ response }: HttpContext) {
     try {
         const empleadosAll = await empleados.read()
-        return response.status(201).json({ message: 'Exito', data:empleadosAll })
+        return response.status(200).json({ message: 'Exito', data:empleadosAll })
+    } catch (e) {
+      return response.status(500).json({ message: 'Error interno.' })
+    }
+  }
+  async readEmpleadosByIdUsuario({ params,response }: HttpContext) {
+    try {
+        const {id} = params
+        const empleado = await empleados.readByIdUsuario(id)
+        return response.status(200).json({ message: 'Exito', data:empleado })
+    } catch (e) {
+      return response.status(500).json({ message: 'Error interno.' })
+    }
+  }
+  async readEmpleadosBySucursal({ params,response }: HttpContext) {
+    try {
+        const {id} = params
+        const empleadosSucursal = await empleados.readByIdSucursal(id)
+        return response.status(200).json({ message: 'Exito', data:empleadosSucursal })
     } catch (e) {
       return response.status(500).json({ message: 'Error interno.' })
     }
