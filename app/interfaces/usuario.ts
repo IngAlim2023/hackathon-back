@@ -1,13 +1,14 @@
-export interface Usuario {
-  id: number;
+export interface UsuarioData {
+  id?: number;
   nombres: string;
   apellidos: string;
-  fechaNacimiento: string | Date;
+  fechanacimiento: Date;
   password?: string;
   email: string;
   documento: string;
   genero: string;
+  tipodocumento:string
   
   // llaves foraneas
-  rolId: number;
+  idrol: number;
 }
