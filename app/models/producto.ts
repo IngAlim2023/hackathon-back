@@ -29,7 +29,9 @@ export default class Producto extends BaseModel {
   @belongsTo(() => Categoria, { foreignKey: 'idcategoria' })
   declare categoria: BelongsTo<typeof Categoria>
 
-  @hasMany(() => Foto)
+  @hasMany(() => Foto, {
+    foreignKey: 'idproducto'
+  })
   declare fotos: HasMany<typeof Foto>
 
   @hasMany(() => Descuento)
