@@ -60,7 +60,7 @@ export default class VentaService {
       .where('id', id)
       return res;
   }
-  
+
   async readByCategoria(id: number) {
     const ventas = await Venta.query()
       .preload('detalleventas', (qdv) =>
@@ -95,13 +95,78 @@ export default class VentaService {
   }
   
   async readByMes(mes: string){
-    const res = await Venta.query()
-    return res;
+      const [yearStr, monthStr] = mes.includes('-')
+    ? mes.split('-')
+    : [new Date().getFullYear().toString(), mes]
+
+  const year = parseInt(yearStr)
+  const month = parseInt(monthStr)
+
+  // calcular rango de fechas
+  const inicioMes = new Date(year, month - 1, 1)
+  const finMes = new Date(year, month, 0, 23, 59, 59, 999)
+
+  // traer las ventas del mes con sus productos
+  const ventas = await Venta.query()
+    .whereBetween('created_at', [inicioMes, finMes])
+    .preload('detalleventas', (qdv) => qdv.preload('producto'))
+
+  // acumular ventas por producto
+  const resumen = new Map<number, { producto: string; total: number }>()
+
+  for (const venta of ventas) {
+    for (const detalle of venta.detalleventas) {
+      const producto = detalle.producto
+      if (!producto) continue
+
+      const key = producto.id
+      const item = resumen.get(key) || {
+        producto: producto.nombre,
+        total: 0,
+      }
+
+      item.total += detalle.cantidadproducto
+      resumen.set(key, item)
+    }
+  }
+
+  const top3 = Array.from(resumen.values())
+    .sort((a, b) => b.total - a.total)
+    .slice(0, 3)
+
+  return top3
   }
   
   async readBySucursal(id: number){
-    const res = await Venta.query()
-    return res;
+  const ventas = await Venta.query()
+    .whereHas('empleado', (empleadoQuery) => {
+      empleadoQuery.where('idsucursal', id)
+    })
+    .preload('detalleventas', (qdv) => qdv.preload('producto'))
+
+  const resumen = new Map<number, { producto: string; total: number }>()
+
+  for (const venta of ventas) {
+    for (const detalle of venta.detalleventas) {
+      const producto = detalle.producto
+      if (!producto) continue
+
+      const key = producto.id
+      const item = resumen.get(key) || {
+        producto: producto.nombre,
+        total: 0,
+      }
+
+      item.total += detalle.cantidadproducto
+      resumen.set(key, item)
+    }
+  }
+
+  const top3 = Array.from(resumen.values())
+    .sort((a, b) => b.total - a.total)
+    .slice(0, 3)
+
+  return top3
   }
 
 }
