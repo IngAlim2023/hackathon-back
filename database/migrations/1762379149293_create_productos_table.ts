@@ -8,17 +8,18 @@ export default class extends BaseSchema {
       table.increments('id')
 
       table
-        .integer('idsubcategoria')
+        .integer('idcategoria')
         .notNullable()
         .unsigned()
         .references('id')
-        .inTable('subcategorias')
+        .inTable('categorias')
 
       table.string('nombre', 200).notNullable()
       table.string('descripcion', 200).notNullable()
       table.decimal('precioventa', 13, 1).notNullable()
       table.decimal('preciocompra', 13, 1).notNullable()
       table.string('talla', 10).notNullable()
+      table.string('segmento', 10).notNullable()
       table.integer('stock').notNullable()
 
       table.timestamp('created_at')
