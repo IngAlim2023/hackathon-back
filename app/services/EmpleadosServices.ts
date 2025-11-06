@@ -6,9 +6,12 @@ export default class EmpleadosServices {
     return await Empleado.create(data)
   }
   async read() {
-    return await Empleado.query().select('*')
+    return await Empleado.query().select('*').preload('usuario')
   }
   async readByIdUsuario(idUsuario:number){
-    return await Empleado.query().select('*').where('idusuario', idUsuario).first()
+    return await Empleado.query().select('*').where('idusuario', idUsuario).preload('usuario').first()
+  }
+  async readByIdSucursal(idSucursal:number){
+    return await Empleado.query().select('*').where('idsucursal', idSucursal).preload('usuario')
   }
 }
