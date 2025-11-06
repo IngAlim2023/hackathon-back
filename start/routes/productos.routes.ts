@@ -3,6 +3,6 @@ import ProductoController from "../../app/controller/ProductoController.js";
 
 const productoController = new ProductoController;
 
-router.post('/api/v1/productos', productoController.createProducto);
-router.get('/api/v1/productos', productoController.readAllProductos);
-router.get('/api/v1/productos/:id', productoController.readByIdProducto);
+router.post('/api/v1/productos/create', productoController.createProducto);
+router.get('/api/v1/productos/read', productoController.readAllProductos);
+router.get('/api/v1/productos/read/:id', productoController.readByIdProducto);
