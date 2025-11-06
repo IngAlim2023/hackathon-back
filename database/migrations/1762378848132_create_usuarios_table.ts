@@ -11,9 +11,9 @@ export default class extends BaseSchema {
 
       table.string('nombres', 100).notNullable()
       table.string('apellidos', 100).notNullable()
-      table.string('documento', 45).notNullable()
+      table.string('documento', 45).notNullable().unique()
       table.string('password', 200).notNullable()
-      table.string('email', 200).notNullable()
+      table.string('email', 200).notNullable().unique()
       table.date('fechanacimiento').notNullable()
       table.enum('genero', ['F', 'M'])
       table.enum('tipodocumento', ['Cedula de ciudadania', 'Cedula de extrangeria'])
