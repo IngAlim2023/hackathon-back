@@ -41,7 +41,7 @@ export default class VentaService {
   }
 
   async readAll(){
-    const res = Venta.query()
+    const res = await Venta.query()
       .preload('detalleventas', 
         (qd)=> qd.preload('producto', 
           (qf)=> qf.preload('fotos')))
@@ -51,7 +51,7 @@ export default class VentaService {
   }
 
   async readById(id: number) {
-    const res = Venta.query()
+    const res = await Venta.query()
       .preload('detalleventas', 
         (qd)=> qd.preload('producto', 
           (qf)=> qf.preload('fotos')))
@@ -59,6 +59,49 @@ export default class VentaService {
       .preload('empleado', (qe) => qe.preload('usuario'))
       .where('id', id)
       return res;
+  }
+  
+  async readByCategoria(id: number) {
+    const ventas = await Venta.query()
+      .preload('detalleventas', (qdv) =>
+        qdv.preload('producto', (qp) => qp.where('idcategoria', id))
+      )
+    
+    // Mapa para acumular totales
+    const resumen = new Map<number, { producto: string; total: number }>()
+    
+    for (const venta of ventas) {
+      for (const detalle of venta.detalleventas) {
+        const producto = detalle.producto
+        if (!producto) continue // puede venir null si no coincide con la categoría
+      
+        const key = producto.id
+        const item = resumen.get(key) || {
+          producto: producto.nombre,
+          total: 0,
+        }
+      
+        item.total += detalle.cantidadproducto
+        resumen.set(key, item)
+      }
+    }
+  
+    // Convertir a array, ordenar y tomar los 3 primeros
+    const top3 = Array.from(resumen.values())
+      .sort((a, b) => b.total - a.total)
+      .slice(0, 3)
+  
+    return top3
+  }
+  
+  async readByMes(mes: string){
+    const res = await Venta.query()
+    return res;
+  }
+  
+  async readBySucursal(id: number){
+    const res = await Venta.query()
+    return res;
   }
 
 }
