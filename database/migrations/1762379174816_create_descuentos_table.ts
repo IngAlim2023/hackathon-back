@@ -13,6 +13,9 @@ export default class extends BaseSchema {
 
       table.string('nombre',200).notNullable()
 
+      table.date('fechainicio').notNullable()
+      table.date('fechafin').notNullable()
+
       table.timestamp('created_at')
       table.timestamp('updated_at')
     })
